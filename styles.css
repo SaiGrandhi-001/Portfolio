@@ -206,10 +206,10 @@ button#theme-toggle:hover {
   color: #333;
 }
 
-/* Reduce gap between heading and info */
+/* Reduce gap between heading and info (tighter) */
 .flip-card-front h3 {
-  margin: 0 0 8px;
-  line-height: 1.15;
+  margin: 0 0 6px; /* tightened */
+  line-height: 1.12;
   font-weight: 700;
 }
 
@@ -260,7 +260,7 @@ body.dark-mode .flip-card-back {
   z-index: 1000;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center; /* center nav area under header */
 }
 
 #navbar ul {
@@ -270,7 +270,11 @@ body.dark-mode .flip-card-back {
   list-style: none;
   margin: 0;
   padding: 0;
+  max-width: 900px; /* constrain width so nav sits centered under header */
+  width: 100%;
 }
+
+#navbar li { list-style: none; }
 
 #navbar a {
   color: #fff;
@@ -511,6 +515,9 @@ body.dark-mode .social-links a:hover {
     order: 2;
   }
 
+  /* restore space-between on narrow screens so hamburger and nav can be separated */
+  #navbar { justify-content: space-between; }
+
   #navbar ul {
     display: none;
     flex-direction: column;
@@ -521,6 +528,7 @@ body.dark-mode .social-links a:hover {
     background: #222;
     gap: 0;
     padding: 10px 0;
+    max-width: none; /* allow full-width nav on mobile */
   }
 
   #navbar ul.active {
