@@ -9,24 +9,53 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// Theme Toggle
-const toggleBtn = document.getElementById("theme-toggle");
+// Theme Toggle (improved: respects prefers-color-scheme, sets initial label, adds aria-pressed)
+(function () {
+  const toggleBtn = document.getElementById("theme-toggle");
+  if (!toggleBtn) return; // defensive
 
-if (localStorage.getItem("theme") === "dark") {
-  document.body.classList.add("dark-mode");
-  toggleBtn.textContent = "☀️ Switch to Light Mode";
-}
+  // Resolve initial theme:
+  // 1) stored preference, 2) system preference, 3) default to light
+  const stored = localStorage.getItem("theme");
+  const systemPrefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const initialIsDark = stored === "dark" || (stored === null && systemPrefersDark);
 
-toggleBtn.addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
-  if (document.body.classList.contains("dark-mode")) {
-    toggleBtn.textContent = "☀️ Switch to Light Mode";
-    localStorage.setItem("theme", "dark");
-  } else {
-    toggleBtn.textContent = "🌙 Switch to Dark Mode";
-    localStorage.setItem("theme", "light");
+  function applyTheme(isDark) {
+    if (isDark) {
+      document.body.classList.add("dark-mode");
+      toggleBtn.textContent = "☀️ Switch to Light Mode";
+      toggleBtn.setAttribute("aria-pressed", "true");
+    } else {
+      document.body.classList.remove("dark-mode");
+      toggleBtn.textContent = "🌙 Switch to Dark Mode";
+      toggleBtn.setAttribute("aria-pressed", "false");
+    }
   }
-});
+
+  // Apply initial theme state synchronously
+  applyTheme(initialIsDark);
+
+  // Click handler toggles and persists
+  toggleBtn.addEventListener("click", () => {
+    const isDarkNow = document.body.classList.toggle("dark-mode");
+    localStorage.setItem("theme", isDarkNow ? "dark" : "light");
+    applyTheme(isDarkNow);
+  });
+
+  // Optionally keep in sync with system preference changes when user hasn't chosen explicitly
+  if (window.matchMedia) {
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (typeof mq.addEventListener === "function") {
+      mq.addEventListener("change", (e) => {
+        if (localStorage.getItem("theme") === null) applyTheme(e.matches);
+      });
+    } else if (typeof mq.addListener === "function") {
+      mq.addListener((e) => {
+        if (localStorage.getItem("theme") === null) applyTheme(e.matches);
+      });
+    }
+  }
+})();
 
 // Hamburger Menu
 const hamburger = document.getElementById("hamburger");
