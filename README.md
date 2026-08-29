@@ -16,8 +16,7 @@ This site showcases my projects, skills, and professional journey toward becomin
 ---
 
 ## 📸 Preview
-![Portfolio Screenshot](<img width="943" height="490" alt="Screenshot 2026-08-29 222327" src="https://github.com/user-attachments/assets/0cb31891-b206-44f7-acac-ab3a795aaf28" />
-)
+![Portfolio Screenshot](https://github.com/SaiGrandhi-001/Portfolio/blob/main/Portfolio_MainPage.png)
 ---
 
 ## 🔗 Links
