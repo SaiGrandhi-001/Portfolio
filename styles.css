@@ -1,12 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Segoe UI", Arial, sans-serif;
   margin: 0;
   background: #f9f9f9;
   color: #333;
   line-height: 1.6;
-  transition:
-    background 0.5s ease,
-    color;
+  transition: background 0.5s ease, color 0.5s ease;
 }
 
 body.dark-mode {
@@ -32,14 +34,36 @@ body.dark-mode .tagline {
   color: #ddd;
 }
 
+body.dark-mode #contact-popup .popup-content {
+  background: #1e1e1e;
+  color: #f4f4f4;
+}
+
+body.dark-mode #contact-popup h2 {
+  color: #f4f4f4;
+}
+
+body.dark-mode #contact-form label {
+  color: #f4f4f4;
+}
+
+body.dark-mode #contact-form input,
+body.dark-mode #contact-form textarea {
+  background: #2a2a2a;
+  color: #f4f4f4;
+  border-color: #444;
+}
+
+body.dark-mode #contact-form button {
+  background: #0088cc;
+}
+
 header {
   background: #222;
   color: #fff;
   text-align: center;
   padding: 30px;
-  transition:
-    background 0.5s ease,
-    color 0.5s ease;
+  transition: background 0.5s ease, color 0.5s ease;
 }
 
 header h1 {
@@ -60,9 +84,7 @@ section {
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition:
-    background 0.5s ease,
-    color 0.5s ease;
+  transition: background 0.5s ease, color 0.5s ease;
 }
 
 h2 {
@@ -79,13 +101,41 @@ button#theme-toggle {
   cursor: pointer;
   background: #444;
   color: #fff;
-  transition:
-    background 0.3s ease,
-    color 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 button#theme-toggle:hover {
   background: #666;
+}
+
+/* Hamburger Menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #fff;
+  margin: 5px 0;
+  transition: 0.3s;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(-45deg) translate(-8px, 8px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(45deg) translate(-7px, -7px);
 }
 
 .projects-grid {
@@ -134,6 +184,7 @@ button#theme-toggle:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .flip-card-back {
@@ -143,7 +194,6 @@ button#theme-toggle:hover {
   width: 100%;
   display: flex;
   flex-direction: column;
-  content: center;
   justify-content: center;
   align-items: center;
   padding: 20px;
@@ -164,11 +214,15 @@ body.dark-mode .flip-card-back {
   display: flex;
   gap: 10px;
   margin: 10px 0;
+  flex-wrap: wrap;
+  justify-content: center;
 }
+
 .tech-icons i {
   font-size: 30px;
   transition: transform 0.3s ease;
 }
+
 .tech-icons i:hover {
   transform: scale(1.2);
 }
@@ -179,6 +233,9 @@ body.dark-mode .flip-card-back {
   background: #222;
   padding: 10px 0;
   z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 #navbar ul {
@@ -217,9 +274,7 @@ body.dark-mode .flip-card-back {
   cursor: pointer;
   font-weight: bold;
   display: none;
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 #back-to-top:hover {
@@ -248,13 +303,35 @@ body.dark-mode .flip-card-back {
   width: 90%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   animation: fadeIn 0.4s ease;
+  position: relative;
 }
 
 #contact-popup h2 {
+  margin-top: 0;
   margin-bottom: 20px;
   font-size: 1.8rem;
   color: #222;
   text-align: center;
+}
+
+.close-popup {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.close-popup:hover {
+  color: #00aaff;
+}
+
+body.dark-mode .close-popup {
+  color: #f4f4f4;
 }
 
 #contact-form {
@@ -293,9 +370,7 @@ body.dark-mode .flip-card-back {
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
-  transition:
-    background 0.3s ease,
-    transform 0.2s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 #contact-form button:hover {
@@ -342,6 +417,7 @@ footer a {
   margin: 0 10px;
   text-decoration: none;
 }
+
 footer a:hover {
   text-decoration: underline;
 }
@@ -351,6 +427,7 @@ footer a:hover {
   gap: 15px;
   justify-content: center;
   margin-top: 20px;
+  flex-wrap: wrap;
 }
 
 .social-links a {
@@ -364,10 +441,7 @@ footer a:hover {
   color: #333;
   font-size: 20px;
   text-decoration: none;
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    transform 0.2s ease;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
 }
 
 .social-links a:hover {
@@ -386,16 +460,6 @@ body.dark-mode .social-links a:hover {
   color: #fff;
 }
 
-@media (max-width: 600px) {
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
-  .flip-card {
-    max-width: 100%;
-    height: auto;
-  }
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -404,5 +468,87 @@ body.dark-mode .social-links a:hover {
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.8em;
+  }
+
+  .tagline {
+    font-size: 1em;
+  }
+
+  .hamburger {
+    display: flex;
+    order: 2;
+  }
+
+  #navbar ul {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: #222;
+    gap: 0;
+    padding: 10px 0;
+  }
+
+  #navbar ul.active {
+    display: flex;
+  }
+
+  #navbar li {
+    text-align: center;
+    border-bottom: 1px solid #333;
+  }
+
+  #navbar a {
+    display: block;
+    padding: 10px;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flip-card {
+    max-width: 100%;
+    height: auto;
+  }
+
+  section {
+    padding: 15px;
+    margin: 15px;
+  }
+
+  #contact-popup .popup-content {
+    width: 95%;
+  }
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 20px;
+  }
+
+  header h1 {
+    font-size: 1.5em;
+  }
+
+  #back-to-top {
+    bottom: 20px;
+    right: 20px;
+    padding: 8px 12px;
+    font-size: 0.9em;
+  }
+
+  .flip-card-front h3,
+  .flip-card-back p {
+    font-size: 0.9em;
   }
 }
