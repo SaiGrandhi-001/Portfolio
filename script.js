@@ -213,3 +213,30 @@ if ("IntersectionObserver" in window) {
 
   document.querySelectorAll("img.lazy").forEach((img) => imageObserver.observe(img));
 }
+
+// Enable tap/click-to-flip for .flip-card on touch devices and keyboard users
+(function () {
+  const cards = document.querySelectorAll('.flip-card');
+
+  cards.forEach(card => {
+    // Make card focusable and announceable as a control
+    if (!card.hasAttribute('tabindex')) card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+
+    // Toggle flip on click/tap
+    card.addEventListener('click', (e) => {
+      // Avoid toggling when clicking links inside the card
+      if (e.target.closest('a')) return;
+      card.classList.toggle('is-flipped');
+    });
+
+    // Keyboard support: Enter or Space toggles flip
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.classList.toggle('is-flipped');
+      }
+    });
+  });
+
+})();
