@@ -1,10 +1,15 @@
+// Update Clock
 function updateClock() {
   const now = new Date();
-  document.getElementById("clock").textContent = now.toLocaleTimeString();
+  const clockElement = document.getElementById("clock");
+  if (clockElement) {
+    clockElement.textContent = now.toLocaleTimeString();
+  }
 }
 setInterval(updateClock, 1000);
 updateClock();
 
+// Theme Toggle
 const toggleBtn = document.getElementById("theme-toggle");
 
 if (localStorage.getItem("theme") === "dark") {
@@ -23,17 +28,43 @@ toggleBtn.addEventListener("click", () => {
   }
 });
 
+// Hamburger Menu
+const hamburger = document.getElementById("hamburger");
+const navbar = document.getElementById("navbar");
+const navList = document.querySelector("#navbar ul");
+
+if (hamburger) {
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    navList.classList.toggle("active");
+  });
+
+  // Close menu when a link is clicked
+  document.querySelectorAll("#navbar a").forEach((link) => {
+    link.addEventListener("click", () => {
+      hamburger.classList.remove("active");
+      navList.classList.remove("active");
+    });
+  });
+}
+
+// Smooth Scroll Navigation (excluding Contact)
 document
   .querySelectorAll('#navbar a:not([href="#contact"])')
   .forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
       e.preventDefault();
-      document.querySelector(this.getAttribute("href")).scrollIntoView({
-        behavior: "smooth",
-      });
+      const targetId = this.getAttribute("href");
+      const targetSection = document.querySelector(targetId);
+      if (targetSection) {
+        targetSection.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
     });
   });
 
+// Active Navigation Highlighting
 window.addEventListener("scroll", () => {
   const sections = document.querySelectorAll("section");
   const navLinks = document.querySelectorAll("#navbar a");
@@ -54,6 +85,7 @@ window.addEventListener("scroll", () => {
   });
 });
 
+// Back to Top Button
 const backToTopBtn = document.getElementById("back-to-top");
 
 window.addEventListener("scroll", () => {
@@ -71,25 +103,45 @@ backToTopBtn.addEventListener("click", () => {
   });
 });
 
+// Contact Form Popup
 document.addEventListener("DOMContentLoaded", () => {
   const contactLink = document.querySelector('#navbar a[href="#contact"]');
   const contactPopup = document.getElementById("contact-popup");
   const form = document.getElementById("contact-form");
   const messageBox = document.getElementById("form-message");
   const messageText = document.getElementById("form-message-text");
+  const closePopupBtn = document.getElementById("close-popup");
 
-  contactLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    contactPopup.style.display =
-      contactPopup.style.display === "flex" ? "none" : "flex";
-  });
+  // Open popup when Contact link is clicked
+  if (contactLink) {
+    contactLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      contactPopup.style.display = "flex";
+    });
+  }
 
+  // Close popup when X button is clicked
+  if (closePopupBtn) {
+    closePopupBtn.addEventListener("click", () => {
+      contactPopup.style.display = "none";
+    });
+  }
+
+  // Close popup when clicking outside
   contactPopup.addEventListener("click", (e) => {
     if (e.target === contactPopup) {
       contactPopup.style.display = "none";
     }
   });
 
+  // Close popup on Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && contactPopup.style.display === "flex") {
+      contactPopup.style.display = "none";
+    }
+  });
+
+  // Form submission
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -101,20 +153,37 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const response = await fetch(form.action, {
-      method: form.method,
-      body: new FormData(form),
-      headers: { Accept: "application/json" },
-    });
-
-    if (response.ok) {
-      messageText.textContent = "✅ Thank you! Your message has been sent.";
-      messageBox.className = "form-message success";
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email.value)) {
+      messageText.textContent = "⚠️ Please enter a valid email address.";
+      messageBox.className = "form-message warning";
       messageBox.style.display = "block";
-      form.reset();
-    } else {
+      autoHideMessage();
+      return;
+    }
+
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
+      });
+
+      if (response.ok) {
+        messageText.textContent = "✅ Thank you! Your message has been sent.";
+        messageBox.className = "form-message success";
+        messageBox.style.display = "block";
+        form.reset();
+      } else {
+        messageText.textContent =
+          "❌ Oops! Something went wrong. Please try again.";
+        messageBox.className = "form-message error";
+        messageBox.style.display = "block";
+      }
+    } catch (error) {
       messageText.textContent =
-        "❌ Oops! Something went wrong. Please try again.";
+        "❌ Network error. Please check your connection and try again.";
       messageBox.className = "form-message error";
       messageBox.style.display = "block";
     }
@@ -128,3 +197,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 5000);
   }
 });
+
+// Intersection Observer for lazy loading future images
+if ("IntersectionObserver" in window) {
+  const imageObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        img.src = img.dataset.src;
+        img.classList.remove("lazy");
+        observer.unobserve(img);
+      }
+    });
+  });
+
+  document.querySelectorAll("img.lazy").forEach((img) => imageObserver.observe(img));
+}
