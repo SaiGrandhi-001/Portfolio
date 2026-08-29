@@ -206,6 +206,17 @@ button#theme-toggle:hover {
   color: #333;
 }
 
+/* Reduce gap between heading and info */
+.flip-card-front h3 {
+  margin: 0 0 8px;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.flip-card-front p {
+  margin: 0;
+}
+
 /* back */
 .flip-card-back {
   background: #444;
