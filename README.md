@@ -173,7 +173,7 @@ Portfolio/
 
 Feel free to reach out through any of these channels:
 
-- **Email:** [saigrandhi001@example.com](mailto:saigrandhi001@example.com)
+- **Email:** [saigrandhi001@example.com](mailto:saigrandhi001@gmail.com)
 - **LinkedIn:** [Sai Bharath Grandhi](https://linkedin.com/in/sai-bharath-grandhi-362662392/)
 - **GitHub:** [@SaiGrandhi-001](https://github.com/SaiGrandhi-001)
 - **Instagram:** [@saibharathgrandhi](https://instagram.com/saibharathgrandhi)
